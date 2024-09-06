@@ -5,13 +5,19 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import TextInput from "./TextInput";
 import CustomButton from "./CustomButton";
+import Select from "./Select";
 
-const SignUp = ({ open, setOpen }) => {
+const SignUp = ({ open, setOpen }) => {               
   const dispatch = useDispatch();
   const location = useLocation();
 
   const [isRegister, setIsRegister] = useState(true);
-  const [accountType, setAccountType] = useState("seeker");
+  const [accountType, setAccountType] = useState("ceo");
+  const roles=["condidat","recruteur","ceo"];
+  const handleChange = (event) => {
+    setAccountType(event.target.value);
+};
+const [comptecom,setcomptecom]=useState(true);
 
   const [errMsg, setErrMsg] = useState("");
   const {
@@ -67,24 +73,28 @@ const SignUp = ({ open, setOpen }) => {
                   <div className='w-full flex items-center justify-center py-4 '>
                     <button
                       className={`flex-1 px-4 py-2 rounded text-sm outline-none ${
-                        accountType === "seeker"
+                        accountType === "condidat"
                           ? "bg-[#1d4fd862] text-blue-900 font-semibold"
                           : "bg-white border border-blue-400"
                       }`}
-                      onClick={() => setAccountType("seeker")}
+                      /*onClick={() => setAccountType("condidat")}*/
+                      onClick={()=>setcomptecom(true)}
+                    
                     >
-                      User Account
+                      User Account{console.log(accountType)}
                     </button>
-                    <button
+                    {accountType==="ceo"&&comptecom&&<button
                       className={`flex-1 px-4 py-2 rounded text-sm outline-none ${
-                        accountType !== "seeker"
+                        accountType !== "condidat"
                           ? "bg-[#1d4fd862] text-blue-900 font-semibold"
                           : "bg-white border border-blue-400"
                       }`}
-                      onClick={() => setAccountType("company")}
+                      /*onClick={() => setAccountType("")}*/
+                      onClick={()=>setcomptecom(false)}
                     >
                       Company Account
-                    </button>
+                    </button>}
+                    
                   </div>
 
                   <form
@@ -106,37 +116,37 @@ const SignUp = ({ open, setOpen }) => {
                       <div className='w-full flex gap-1 md:gap-2'>
                         <div
                           className={`${
-                            accountType === "seeker" ? "w-1/2" : "w-full"
+                            accountType === "recruteur" ? "w-1/2" : "w-full"
                           }`}
                         >
                           <TextInput
                             name={
-                              accountType === "seeker" ? "firstName" : "name"
+                              comptecom? "Name" : "name"
                             }
                             label={
-                              accountType === "seeker"
-                                ? "First Name"
+                              comptecom
+                                ? "Name"
                                 : "Company Name"
                             }
                             placeholder={
-                              accountType === "seeker"
+                              comptecom
                                 ? "eg. James"
                                 : "Comapy name"
                             }
                             type='text'
                             register={register(
-                              accountType === "seeker" ? "firstName" : "name",
+                              comptecom ? "Name" : "name",
                               {
                                 required:
-                                  accountType === "seeker"
-                                    ? "First Name is required"
+                                comptecom
+                                    ? "Name is required"
                                     : "Company Name is required",
                               }
                             )}
                             error={
-                              accountType === "seeker"
-                                ? errors.firstName
-                                  ? errors.firstName?.message
+                              comptecom
+                                ? errors.Name
+                                  ? errors.Name?.message
                                   : ""
                                 : errors.name
                                 ? errors.name?.message
@@ -145,18 +155,18 @@ const SignUp = ({ open, setOpen }) => {
                           />
                         </div>
 
-                        {accountType === "seeker" && isRegister && (
+                        {accountType === "recruteur" &&comptecom &&isRegister && (
                           <div className='w-1/2'>
                             <TextInput
-                              name='lastName'
-                              label='Last Name'
-                              placeholder='Wagonner'
+                              name='Name Company'
+                              label='Name Company'
+                              placeholder='name company'
                               type='text'
-                              register={register("lastName", {
-                                required: "Last Name is required",
+                              register={register("Name Company", {
+                                required: "Name Company is required",
                               })}
                               error={
-                                errors.lastName ? errors.lastName?.message : ""
+                                errors.Name ? errors.Name?.message : ""
                               }
                             />
                           </div>
@@ -180,7 +190,7 @@ const SignUp = ({ open, setOpen }) => {
                         />
                       </div>
 
-                      {isRegister && (
+                      {/*isRegister && (
                         <div className='w-1/2'>
                           <TextInput
                             label='Confirm Password'
@@ -203,7 +213,11 @@ const SignUp = ({ open, setOpen }) => {
                             }
                           />
                         </div>
-                      )}
+                      )*/
+                     isRegister&&comptecom&&(
+                      <Select setType={setAccountType}/>
+                     )
+                       }
                     </div>
 
                     {errMsg && (
@@ -214,7 +228,18 @@ const SignUp = ({ open, setOpen }) => {
                         {errMsg}
                       </span>
                     )}
-
+              
+                { /*<div>
+                  <label for="choix" className='text-sm outline-none'>role:</label>
+    <select id="choix" name="choix">
+        {roles.map((role)=>{
+          {setAccountType(role)}
+          <option value={role}>{role
+          }</option>
+        })}
+        
+    </select>
+                  </div>*/}
                     <div className='mt-2'>
                       <CustomButton
                         type='submit'
