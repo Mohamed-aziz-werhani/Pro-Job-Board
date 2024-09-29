@@ -12,6 +12,7 @@ import {
   UserProfile,
 } from "./pages";
 import { useSelector } from "react-redux";
+import Navbar1 from "./components/Navbar1";
 
 function Layout() {
   const { user } = useSelector((state) => state.user);
@@ -28,7 +29,7 @@ function App() {
   const { user } = useSelector((state) => state.user);
   return (
     <main className='bg-[#f7fdfd]'>
-      <Navbar />
+      <Navbar1 />
 
       <Routes>
         <Route element={<Layout />}>

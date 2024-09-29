@@ -130,7 +130,7 @@ const Navbar = () => {
           </ul>
 
           <div className='hidden lg:block'>
-            {!user?.token ? (
+            {user?.token ? (
               <Link to='/user-auth'>
                 <CustomButton
                   title='Sign In'
