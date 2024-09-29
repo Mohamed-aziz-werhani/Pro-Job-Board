@@ -12,7 +12,7 @@ import { CLIENT_RENEG_LIMIT } from "tls";
 
 @Controller("user")
 export class UserController {
-  constructor(private readonly userService: UserService,
+  constructor(private readonly userService: UserService, 
      private readonly comService: CompanyService,
       private readonly roleService: RoleService, 
       /*private readonly jwtService: JwtService*/ 
