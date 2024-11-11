@@ -75,7 +75,8 @@ export class UserController {
     ceoId: newceo.id,
     phone: req.body.phone_com,
     email: req.body.email_com,
-    id_recs:null
+    id_recs:null,
+    about:req.body.about
   };
       await this.comService.create(company)
       const role ={

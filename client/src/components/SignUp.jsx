@@ -8,6 +8,7 @@ import CustomButton from "./CustomButton";
 import Select from "./Select";
 import axios from "axios";
 import {Login,Logout} from "../redux/userSlice";
+import TextraInput from "./TextraInput";
 
 
 const SignUp = ({ open, setOpen }) => {               
@@ -26,6 +27,7 @@ const SignUp = ({ open, setOpen }) => {
   const [emailcom,setemailcom]=useState("")
   const [phone,setphone]=useState("")
   const [ideRne,setid]=useState();
+  const [About,setAbout]=useState("");
   /*info login*/
   const [emaillo,setemaillo]=useState("")
   const [passwordlo,setpasswordlo]=useState("")
@@ -87,7 +89,8 @@ const [comptecom,setcomptecom]=useState(true);
         type:accountType,
         name_com:namecom,
         phone_com:phone,
-        email_com:emailcom
+        email_com:emailcom,
+        About
        })
        .then((response) => {
          console.log('donneés de ceo:', response.data);
@@ -206,7 +209,10 @@ const [comptecom,setcomptecom]=useState(true);
                     />
 )}              
 
-                  {!comptecom&&(<TextInput
+                  {!comptecom&&isRegister&&(
+                    <div className="flex space-x-4">
+                      <div className="w-1/2">
+                      <TextInput
                       name='email'
                       label='Company Email'
                       placeholder='email@example.com'
@@ -217,7 +223,25 @@ const [comptecom,setcomptecom]=useState(true);
                       error={errors.email ? errors.email.message : ""}
                     stocke={setemailcom}
                     />
+                    </div>
+                    <div className="w-1/2">
+                        <TextInput
+                      name='Image Profil'
+                      placeholder=""
+                      label='Image Profil'
+                      type='file'
+                      /*register={rgister("email", {
+                        required: "Email Address is required!",
+                      })} */
+                      error={errors.email ? errors.email.message : ""}
+                    
+                      />
+    
+                        </div>
+                    </div>
+                    
 )}
+                   
                     
                     {isRegister && (
                       <div className='w-full flex gap-1 md:gap-2'>
@@ -378,6 +402,22 @@ const [comptecom,setcomptecom]=useState(true);
                             errors.Phone ? errors.Phone?.message : ""
                           }
                           stocke={setphone}
+                        />
+                        </div>)}
+                        {accountType === "CEO" &&!comptecom &&isRegister &&(
+                         <div className={"w-1/2"}>
+                        <TextraInput
+                          name='About'
+                          label='About'
+                          placeholder='About'
+                          
+                          /*register={register("Phone", {
+                            required: "Phone company is required!",
+                          })}*/
+                          error={
+                            errors.Phone ? errors.About?.message : ""
+                          }
+                          stocke={setAbout }
                         />
                         </div>)}
                        </div>

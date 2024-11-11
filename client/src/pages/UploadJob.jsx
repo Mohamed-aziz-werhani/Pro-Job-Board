@@ -41,7 +41,7 @@ const UploadJob = () => {
               })}
               error={errors.jobTitle ? errors.jobTitle?.message : ""}
             />
-
+        {/*les types des horaires de travail*/}
             <div className='w-full flex gap-4'>
               <div className={`w-1/2 mt-2`}>
                 <label className='text-gray-600 text-sm mb-1'>Job Type</label>

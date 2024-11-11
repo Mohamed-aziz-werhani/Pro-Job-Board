@@ -17,7 +17,10 @@ export class CompanyEntity extends BaseEntity {
     phone:number;
    @Column("simple-array", { nullable: true , default: null })
    id_recs:string[]|null;
-
+   @Column()
+    about:string;
+    @Column({nullable:true})
+    image:string;
     @OneToMany(() => JobEntity, job => job.company)
     @JoinColumn()
     jobs: JobEntity[];

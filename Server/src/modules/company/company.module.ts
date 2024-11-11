@@ -3,6 +3,7 @@ import { CompanyService } from './company.service';
 import { CompanyController } from './company.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CompanyEntity } from 'src/models/company.entity';
+import { ImageService } from './image.service';
 
 @Module({
   imports: [
@@ -11,6 +12,6 @@ import { CompanyEntity } from 'src/models/company.entity';
     ]),
   ],
   controllers: [CompanyController],
-  providers: [CompanyService],
+  providers: [CompanyService,ImageService],
 })
 export class CompanyModule { }
