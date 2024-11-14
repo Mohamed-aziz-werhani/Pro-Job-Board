@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CompanyEntity } from 'src/models/company.entity';
 import { Repository } from 'typeorm';
+import { join } from 'path';
+import { writeFile } from 'fs/promises';
 
 @Injectable()
 export class CompanyService {
@@ -19,6 +21,34 @@ export class CompanyService {
       return error
     }
   }
+ 
+  private async saveImageFile(file: Express.Multer.File):Promise<string>{
+    const filePath = join(process.cwd(), 'src', 'uploads', file.originalname);
+    await writeFile(filePath, file.buffer); // Sauvegarde le fichier dans le dossier 'uploads'
+    return `/uploads/${file.originalname}`; // Retourne le chemin de l'image
+  }
+
+  async createcom(data:any,imagefile:Express.Multer.File){
+
+    const image1=this.saveImageFile(imagefile);
+
+    const com=this.companyRepository.create({
+      name:data.name,
+      email:data.email,
+      ceoId:data.ceoId,
+      id_recs:null,
+      phone:data.phone,
+      about:data.about,
+      image:await image1
+    });
+     await this.companyRepository.save(com);
+     return com;
+    
+  
+    }
+
+
+
 
   async findAll() {
     try {

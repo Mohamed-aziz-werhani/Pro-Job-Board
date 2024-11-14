@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req ,UseInterceptors, UploadedFile,Res} from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CompanyEntity } from 'src/models/company.entity';
 import { ApiTags } from '@nestjs/swagger';
 import IResponse from 'src/common/types';
-import { Request } from 'express';
+import { Request ,Response} from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller({ version: '1', path: 'companies' })
 @ApiTags('Companies Management Routes')
@@ -20,6 +21,18 @@ export class CompanyController {
       status: 201
     }
   }
+
+  @Post("createCom")
+ /**/
+ @UseInterceptors(FileInterceptor('image'))
+  async createcom(@Req() req:Request,@Res() res:Response,@UploadedFile() file:Express.Multer.File){
+  /*,*/
+    const data=req.body;
+    console.log("hello"+file);
+    const com=await this.companyService.createcom(data,file);
+    res.json("l'entreprise crée")
+  }
+
 
   @Get()
   async findAll(): Promise<IResponse> {

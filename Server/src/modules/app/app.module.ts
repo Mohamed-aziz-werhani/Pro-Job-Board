@@ -27,7 +27,8 @@ import { AuthController } from '../auth/auth.controller';
 import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from '../auth/jwt.strategy';
-
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -41,6 +42,10 @@ import { JwtStrategy } from '../auth/jwt.strategy';
       RoleEntity,
   
     ]),
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'src', 'uploads'),  // Le dossier qui contient les fichiers statiques
+      serveRoot: '/uploads',  // Le chemin d'accès public pour les fichiers
+    })
   ],
   controllers: [
     AppController,

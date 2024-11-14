@@ -7,7 +7,7 @@ import { UserEntity } from "./user.entity";
 @Entity('company')
 export class CompanyEntity extends BaseEntity {
 
-    @Column({ unique: true })
+    @Column({ unique: true})
     name: string;
     @Column()
     email:string;
