@@ -3,7 +3,6 @@ import { CompanyService } from './company.service';
 import { CompanyController } from './company.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CompanyEntity } from 'src/models/company.entity';
-import { ImageService } from './image.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { join } from 'path';
 
@@ -17,6 +16,6 @@ MulterModule.register({
 })
   ],
   controllers: [CompanyController],
-  providers: [CompanyService,ImageService],
+  providers: [CompanyService],
 })
 export class CompanyModule { }

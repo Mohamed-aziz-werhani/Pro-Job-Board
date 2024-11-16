@@ -1,12 +1,12 @@
 import { UserService } from "./user.service";
-import { Controller, HttpStatus, Get, Post, Put, Delete, Req, Res, Body, Param, Query, UsePipes, ValidationPipe } from '@nestjs/common'
+import { Controller, HttpStatus, Get, Post, Put, Delete, Req, Res, Body, Param, Query, UsePipes, ValidationPipe ,UploadedFile,UseInterceptors} from '@nestjs/common'
 import { query, Request, Response } from "express";
 import { CompanyService } from "../company/company.service";
 import * as bcrypt from "bcrypt"
 import { RoleService } from "../role/role.service";
 import { UserRole } from "src/models/role.entity"; 
 import { CLIENT_RENEG_LIMIT } from "tls";
-
+import { FileInterceptor } from '@nestjs/platform-express';
 
 
 
@@ -33,7 +33,7 @@ export class UserController {
         id_user:user1.id
        })
        if(req.body.type=="RECRUTEUR"){
-       await this.comService.addIdRec(user1.id,req.body.com_name);
+       await this.comService.addIdRec(user1.id,req.body.namecom);
        }
        
       res.status(200).json(newuser)
@@ -79,6 +79,70 @@ export class UserController {
     about:req.body.about
   };
       await this.comService.create(company)
+      const role ={
+        name:req.body.type,
+        id_user:newceo.id
+      };
+      await this.roleService.createrole(role)
+      if(!verifuser){
+       await  this.userService.Delete(newceo.id);
+      }
+  //const role_rec=this.roleService.createrole()
+      //res.json("l'operation effectue avec succés")
+      res.json({ceo,company,role})
+    }else{
+      res.json("hello")
+    }
+  }
+
+
+
+  @Post("ceo1/:IdRNE")
+  @UseInterceptors(FileInterceptor('image'))
+   async createceo1(@Param("IdRNE") id: string, @Req() req: Request, @Res() res: Response,@UploadedFile() file:Express.Multer.File) {
+    const verif = await this.userService.verif_com_existe(id);
+    const hashPasswoard = await bcrypt.hash(req.body.password, 10);
+   const verifuser=await this.userService.verifuser(req.body.name); 
+   
+   
+  const ceo = {
+    name: req.body.name,
+    email: req.body.email,
+    password: hashPasswoard
+  // password:req.body.password
+  };
+    if (verif) {
+    //verification de company
+   const newceo= await  this.userService.createUser(ceo) 
+   /*const company = {
+    name: req.body.name_com,
+    ceoId: newceo.id,
+    phone: req.body.phone_com,
+    email: req.body.email_com,
+    id_recs:null,
+    about:req.body.about
+  };
+      await this.comService.create(company)
+      const com=this.companyRepository.create({
+      name:data.namecom,
+      email:data.emailcom,
+      ceoId:data.ceoId,
+      id_recs:null,
+      phone:data.phonecom,
+      about:data.aboutcom,
+      image:await image1
+    });
+      */
+    const datacom={
+      namecom:req.body.namecom,
+       emailcom:req.body.emailcom,
+        ceoId:newceo.id,
+        id_recs:[],
+       phonecom:req.body.phonecom,
+       aboutcom:req.body.aboutcom
+     }
+
+     const company=await this.comService.createcom(datacom,file)
       const role ={
         name:req.body.type,
         id_user:newceo.id

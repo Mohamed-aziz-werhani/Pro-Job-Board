@@ -33,12 +33,12 @@ export class CompanyService {
     const image1=this.saveImageFile(imagefile);
 
     const com=this.companyRepository.create({
-      name:data.name,
-      email:data.email,
+      name:data.namecom,
+      email:data.emailcom,
       ceoId:data.ceoId,
-      id_recs:null,
-      phone:data.phone,
-      about:data.about,
+      id_recs:[],
+      phone:data.phonecom,
+      about:data.aboutcom,
       image:await image1
     });
      await this.companyRepository.save(com);
@@ -85,15 +85,27 @@ export class CompanyService {
     }
   }
   async addIdRec(id:string,name:string){
-    const coms=await this.companyRepository.find(
+   /* const coms=await this.companyRepository.find(
       {
         where:{name:name}
       }
     )
     coms.map(async (com)=>{
+     com.id_recs=com.id_recs||[]
       com.id_recs.push(id)
       await this.companyRepository.save(com)
-    })
+    })*/
+      const com=await this.companyRepository.findOne(
+        {
+          where:{name:name}
+        }
+      )
+      if(com){
+        com.id_recs=com.id_recs||[]
+        com.id_recs.push(id)
+        await this.companyRepository.save(com);
+      }
+
   }
   async verif_rec_com(id:string,name:string){
    let verif=false;

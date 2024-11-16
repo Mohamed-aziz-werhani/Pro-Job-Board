@@ -15,8 +15,8 @@ export class CompanyEntity extends BaseEntity {
     ceoId:string;
     @Column()
     phone:number;
-   @Column("simple-array", { nullable: true , default: null })
-   id_recs:string[]|null;
+   @Column("simple-array", { nullable: true })
+   id_recs:string[];
    @Column()
     about:string;
     @Column({nullable:true})

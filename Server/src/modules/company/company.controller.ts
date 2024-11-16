@@ -32,6 +32,11 @@ export class CompanyController {
     const com=await this.companyService.createcom(data,file);
     res.json("l'entreprise crée")
   }
+@Get("addrec")
+async ajouteRec(@Req() req:Request){
+  return await this.companyService.findbyname(req.body.name)
+
+}
 
 
   @Get()

@@ -28,11 +28,12 @@ const SignUp = ({ open, setOpen }) => {
   const [phone,setphone]=useState("")
   const [ideRne,setid]=useState();
   const [About,setAbout]=useState("");
+  const [image,setImage] =useState("");
   /*info login*/
   const [emaillo,setemaillo]=useState("")
   const [passwordlo,setpasswordlo]=useState("")
   
-  
+ const [data,setData]=useState(); 
   const handleChange = (event) => {
     setAccountType(event.target.value);
 };
@@ -74,28 +75,46 @@ const [comptecom,setcomptecom]=useState(true);
      email,
      password,
      type:accountType,
-     com_name:namecom
+     namecom:namecom
     })
     .then((response) => {
       console.log('donneés de recruteur:', response.data);
     })
     }  
     /*creation de compte ceo*/
-    if(accountType==="CEO"&&isRegister){
+    /*if(accountType==="CEO"&&isRegister){
       axios.post(`http://localhost:3003/user/ceo/${ideRne}`,{
         name,
         email,
         password,
         type:accountType,
-        name_com:namecom,
-        phone_com:phone,
-        email_com:emailcom,
-        About
+        namecom:namecom,
+        phonecom:phone,
+        emailcom:emailcom,
+        aboutcom:About
        })
        .then((response) => {
          console.log('donneés de ceo:', response.data);
        })
-       } 
+       } */
+if(accountType==="CEO"&&isRegister){
+      axios.post(`http://localhost:3003/user/ceo1/${ideRne}`,{
+        name,
+        email,
+        password,
+        type:accountType,
+        namecom:namecom,
+        phonecom:phone,
+        emailcom:emailcom,
+        aboutcom:About,
+        image:image
+       })
+       .then((response) => {
+        setData(response.data);
+         console.log('donneés de ceo:', response.data);
+       })
+       }
+
        if(!isRegister){
     
         axios.post("http://localhost:3003/auth/login",{
@@ -112,7 +131,7 @@ const [comptecom,setcomptecom]=useState(true);
     }
     const onSubmitcom = (e) => {
       e.preventDefault();
-    console.log({namecom,emailcom,phone,ideRne})
+    console.log({namecom,emailcom,phone,ideRne,data})
     }
     
   
@@ -234,7 +253,7 @@ const [comptecom,setcomptecom]=useState(true);
                         required: "Email Address is required!",
                       })} */
                       error={errors.email ? errors.email.message : ""}
-                    
+                  stocke={setImage}
                       />
     
                         </div>
