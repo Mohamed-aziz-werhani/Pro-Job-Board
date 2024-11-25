@@ -13,7 +13,8 @@ import {
 } from "./pages";
 import { useSelector } from "react-redux";
 import Navbar1 from "./components/Navbar1";
-
+import UploadJob1 from "./pages/UploadJob1";
+import JobDetail1 from "./pages/JobDetail1";
 function Layout() {
   const { user } = useSelector((state) => state.user);
   const location = useLocation();
@@ -51,8 +52,8 @@ function App() {
 
           <Route path={"/company-profile"} element={<CompanyProfile />} />
           <Route path={"/company-profile/:id"} element={<CompanyProfile />} />
-          <Route path={"/upload-job"} element={<UploadJob />} />
-          <Route path={"/job-detail/:id"} element={<JobDetail />} />
+          <Route path={"/upload-job"} element={<UploadJob1 />} />
+          <Route path={"/job-detail/:id"} element={<JobDetail1 />} />
         </Route>
 
         <Route path='/about-us' element={<About />} />

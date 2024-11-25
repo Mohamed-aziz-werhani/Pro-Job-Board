@@ -9,6 +9,7 @@ import Select from "./Select";
 import axios from "axios";
 import {Login,Logout} from "../redux/userSlice";
 import TextraInput from "./TextraInput";
+import TextFileInput from "./TextFileInput";
 
 
 const SignUp = ({ open, setOpen }) => {               
@@ -28,7 +29,8 @@ const SignUp = ({ open, setOpen }) => {
   const [phone,setphone]=useState("")
   const [ideRne,setid]=useState();
   const [About,setAbout]=useState("");
-  const [image,setImage] =useState("");
+  const [image,setImage] =useState(null);
+  const formData = new FormData();
   /*info login*/
   const [emaillo,setemaillo]=useState("")
   const [passwordlo,setpasswordlo]=useState("")
@@ -56,6 +58,8 @@ const [comptecom,setcomptecom]=useState(true);
   const onSubmit = (e) => {
     e.preventDefault();
     console.log('Email:', email); 
+   
+    formData.append('file', image); 
    
       if(accountType==="CONDIDAT"&&isRegister){
         axios.post("http://localhost:3003/user/condidat",{
@@ -107,7 +111,7 @@ if(accountType==="CEO"&&isRegister){
         phonecom:phone,
         emailcom:emailcom,
         aboutcom:About,
-        image:image
+        image:formData
        })
        .then((response) => {
         setData(response.data);
@@ -131,7 +135,7 @@ if(accountType==="CEO"&&isRegister){
     }
     const onSubmitcom = (e) => {
       e.preventDefault();
-    console.log({namecom,emailcom,phone,ideRne,data})
+    console.log({namecom,emailcom,phone,ideRne,image})
     }
     
   
@@ -244,7 +248,7 @@ if(accountType==="CEO"&&isRegister){
                     />
                     </div>
                     <div className="w-1/2">
-                        <TextInput
+                        <TextFileInput
                       name='Image Profil'
                       placeholder=""
                       label='Image Profil'

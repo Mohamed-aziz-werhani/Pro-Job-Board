@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CompanyCard, CustomButton, Header, ListBox } from "../components";
 import { companies } from "../utils/data";
+import axios from "axios";
+import CompanyCard1 from "../components/CompanyCard1";
 
 const Companies = () => {
   const [page, setPage] = useState(1);
   const [numPage, setNumPage] = useState(1);
   const [recordsCount, setRecordsCount] = useState(0);
   const [data, setData] = useState(companies ?? []);
+  const [data1, setData1] = useState([])
   const [searchQuery, setSearchQuery] = useState("");
   const [cmpLocation, setCmpLocation] = useState("");
   const [sort, setSort] = useState("Newest");
@@ -15,9 +18,31 @@ const Companies = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  
+  const [num,setNum]=useState(0);
 
-  const handleSearchSubmit = () => {};
-  const handleShowMore = () => {};
+  const handleSearchSubmit = () => {
+   // getData1();
+  };
+  const handleShowMore = () => {
+    
+  };
+  const getData1=async ()=>{
+
+    const companys=await axios.get("http://localhost:3003/v1/companies/");
+    setData1( companys.data.data)
+    console.log( data1)
+  }
+
+  useEffect(()=>{
+    getData1();
+
+
+  },[num])
+
+  const incrementNum=()=>{
+    setNum(x=>x+1);
+  }
 
   return (
     <div className='w-full'>
@@ -43,10 +68,17 @@ const Companies = () => {
             <ListBox sort={sort} setSort={setSort} />
           </div>
         </div>
-
+        <div className='flex justify-end mb-4'>
+          <button
+            onClick={incrementNum}
+            className='bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400'
+          >
+            Get Companies
+          </button>
+        </div>
         <div className='w-full flex flex-col gap-6'>
-          {data?.map((cmp, index) => (
-            <CompanyCard cmp={cmp} key={index} />
+          {data1?.map((cmp, index) => (
+            <CompanyCard1 cmp={cmp} key={index} />
           ))}
 
           {isFetching && (
@@ -56,7 +88,7 @@ const Companies = () => {
           )}
 
           <p className='text-sm text-right'>
-            {data?.length} records out of {recordsCount}
+            {data1?.length} records out of {recordsCount}
           </p>
         </div>
 

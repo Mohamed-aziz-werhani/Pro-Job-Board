@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BiBriefcaseAlt2 } from "react-icons/bi";
 import { BsStars } from "react-icons/bs";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-
+import JobCard1 from "../components/JobCard1";
 import Header from "../components/Header";
 import { experience, jobTypes, jobs } from "../utils/data";
 import { CustomButton, JobCard, ListBox } from "../components";
+import axios from "axios";
 
 const FindJobs = () => {
   const [sort, setSort] = useState("Newest");
@@ -25,6 +26,25 @@ const FindJobs = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [jobs1,setJob1]=useState([]);
+  const [num,setNum]=useState(0);
+
+
+  const getJbos=async ()=>{
+    const jobPost=await axios.get("http://localhost:3003/v1/jobs/");
+    setJob1(jobPost.data.data);
+    console.log(jobs1)
+}
+
+useEffect(()=>{
+  getJbos();
+},[num])
+
+
+const incumentNum=()=>{
+  setNum(x=>x+1);
+  console.log(jobs1)
+}
   const filterJobs = (val) => {
     if (filterJobTypes?.includes(val)) {
       setFilterJobTypes(filterJobTypes.filter((el) => el != val));
@@ -121,10 +141,17 @@ const FindJobs = () => {
               <ListBox sort={sort} setSort={setSort} />
             </div>
           </div>
+          <div className="flex justify-end">
+    <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+    onClick={incumentNum}
+    >
+     Get Jobs
+    </button>
+  </div>
 
           <div className='w-full flex flex-wrap gap-4'>
-            {jobs.map((job, index) => (
-              <JobCard job={job} key={index} />
+            {jobs1.map((job, index) => (
+              <JobCard1 job={job} key={index} />
             ))}
           </div>
 

@@ -8,8 +8,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // CORS
-  app.enableCors();
+ 
   app.enableVersioning({ type: VersioningType.URI });
+  app.enableCors({
+    origin: 'http://localhost:5173', // Autorise uniquement le frontend React
+    methods: '*',        // Autorise ces méthodes
+    credentials: true,               // Si vous utilisez des cookies ou des sessions
+  });
 
   // SWAGGER: API DOCS
   const config = new DocumentBuilder()

@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextInput = React.forwardRef(
+const TextFileInput = React.forwardRef(
   ({ type, placeholder, styles, label, register, name, error ,stocke}, ref) => {
     return (
       <div className='flex flex-col mt-2'>
@@ -13,7 +13,9 @@ const TextInput = React.forwardRef(
           ref={ref}
           onChange={(e)=>{
             
-          stocke(e.target.value)}}
+         stocke(e.target.files[0])
+        }
+        }
           className={`rounded border border-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base px-4 py-2 ${styles}`}
          // {...register}
          
@@ -25,4 +27,4 @@ const TextInput = React.forwardRef(
   }
 );
 
-export default TextInput;
+export default TextFileInput;

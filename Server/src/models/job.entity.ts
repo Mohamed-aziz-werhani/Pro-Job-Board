@@ -12,8 +12,8 @@ export class JobEntity extends BaseEntity {
 
     @Column({ default: 'Job Description Not Available' })
     description: string;
-    @Column({default:0})
-    num_reveiw_rec:number;
+    @Column({default:'Job Requirement Not Available'})
+    Requirement:string;
 
     // each job belongs to one company
     @ManyToOne(() => CompanyEntity, (company) => company.jobs)
